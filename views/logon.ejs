@@ -1,0 +1,25 @@
+<%- include("partials/head.ejs") %>
+<%- include("partials/header.ejs") %>
+
+<form method="POST" action="/sessions/logon">
+  <div>
+    <label for="email">Enter your email:</label>
+    <input name="email" id="email" />
+  </div>
+  <div>
+    <label for="password">Enter your password:</label>
+    <input type="password" name="password" id="password" />
+  </div>
+  <div>
+    <button type="submit">Logon</button>
+    <button type="button" onclick="window.location.href='/'">Cancel</button>
+  </div>
+</form>
+<% if (errors && errors.length) { %>
+  <ul>
+    <% errors.forEach(err => { %>
+      <li><%= err %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
