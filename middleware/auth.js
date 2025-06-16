@@ -1,4 +1,4 @@
-const authMiddleware = (req, res, next) => {
+const auth = (req, res, next) => {
     if (!req.user) {
         req.flash("error", "You can't access that page before logon.");
         res.redirect("/");
@@ -7,4 +7,4 @@ const authMiddleware = (req, res, next) => {
     }
 };
 
-module.exports = authMiddleware;
+module.exports = auth;

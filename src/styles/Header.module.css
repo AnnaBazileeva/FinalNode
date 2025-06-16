@@ -27,14 +27,3 @@
     text-decoration: none;
 }
 
-.logo {
-    width: 40px;
-    height: 40px;
-}
-
-.logoTitle {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-}
