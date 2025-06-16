@@ -8,6 +8,8 @@ import Header from "./shared/Header.jsx";
 import About from "./pages/About.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import LoginPage from "./pages/LoginPage"
+import Footer from "./shared/Footer";
+import HomePage from "./pages/HomePage";
 
 function App() {
     return (
@@ -18,10 +20,12 @@ function App() {
                     <Routes>
                         <Route path="/services" element={<BookingServices />} />
                         <Route path="/about" element={<About />} />
+                        <Route path="/" element={<HomePage/>}/>
                         <Route path="*" element={<NotFound />} />
                         <Route path="/login" element={<LoginPage />} />
                     </Routes>
                 </main>
+                <Footer />
             </div>
 
     );

@@ -10,10 +10,16 @@ const Header = () => {
     useEffect(() => {
         switch (location.pathname) {
             case "/":
-                setTitle("Services");
+                setTitle("Home");
                 break;
             case "/about":
                 setTitle("About");
+                break;
+            case "/services":
+                setTitle("Services");
+                break;
+            case "/login":
+                setTitle("Login");
                 break;
             default:
                 setTitle("Not Found");
@@ -39,6 +45,22 @@ const Header = () => {
                     }
                 >
                     About
+                </NavLink>
+                <NavLink
+                    to="/services"
+                    className={({ isActive }) =>
+                        isActive ? styles.active : styles.inactive
+                    }
+                >
+                    Services
+                </NavLink>
+                <NavLink
+                    to="/login"
+                    className={({ isActive }) =>
+                        isActive ? styles.active : styles.inactive
+                    }
+                >
+                    Login
                 </NavLink>
             </nav>
         </header>
