@@ -62,6 +62,9 @@ const Header = () => {
                 >
                     Login
                 </NavLink>
+                {localStorage.getItem('token') && (
+                    <NavLink to="/addservice">Add Service</NavLink>
+                )}
             </nav>
         </header>
     );

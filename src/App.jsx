@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound.jsx";
 import LoginPage from "./pages/LoginPage"
 import Footer from "./shared/Footer";
 import HomePage from "./pages/HomePage";
+import AddService from "./pages/AddService";
 
 function App() {
     return (
@@ -19,6 +20,7 @@ function App() {
                 <main>
                     <Routes>
                         <Route path="/services" element={<BookingServices />} />
+                        <Route path="/addservice" element={<AddService />} />
                         <Route path="/about" element={<About />} />
                         <Route path="/" element={<HomePage/>}/>
                         <Route path="*" element={<NotFound />} />

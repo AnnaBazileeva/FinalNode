@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styles from "../styles/Login.module.css";
+import { useNavigate } from "react-router-dom";
+
 
 export default function LoginPage() {
     const [isLogin, setIsLogin] = useState(true);
@@ -7,26 +9,45 @@ export default function LoginPage() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const url = isLogin ? "/api/auth/login" : "/api/auth/register";
+        const API_BASE = "http://localhost:3000";
+
+
+        const url = isLogin ? `${API_BASE}/api/auth/login` : `${API_BASE}/api/auth/register`;
         const payload = isLogin
             ? { email, password, role }
             : { name, email, password, role };
 
-        const response = await fetch(url, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-        });
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            });
 
-        const data = await response.json();
-        if (response.ok) {
-            alert(isLogin ? `Welcome, ${role}!` : "Registration successful!");
-        } else {
-            alert(data.message || "Request failed");
+            const data = await response.json();
+            console.log("Response data:", data);
+            if (response.ok) {
+                alert(isLogin ? `Welcome, ${role}!` : "Registration successful!");
+
+
+                localStorage.setItem("token", data.token);
+
+
+                if (role === "customer") {
+                    navigate("/booking");
+                } else if (role === "provider") {
+                    navigate("/services");
+                }
+            } else {
+                alert(data.message || "Request failed");
+            }
+        } catch (error) {
+            alert("Something went wrong.");
         }
     };
 
@@ -52,20 +73,18 @@ export default function LoginPage() {
                     </button>
                 </div>
 
-                {!isLogin && (
-                    <label className={`${styles.label} ${!isLogin ? "" : styles.hiddenField}`}>
-                        Name:
-                        <input
-                            type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            required
-                            className={styles.input}
-                            required={!isLogin}
-                            disabled={isLogin}
-                        />
-                    </label>
-                )}
+                    {!isLogin && (
+                    <label className={styles.label}>
+                Name:
+                <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className={styles.input}
+                    required
+                />
+            </label>
+            )}
 
                 <label className={styles.label}>
                     Email:

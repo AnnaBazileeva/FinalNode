@@ -20,7 +20,7 @@ const UserSchema = new mongoose.Schema({
         required: [true, 'Please provide password'],
         minlength:6,
     },
-    role: { type: String, enum: ['client', 'provider'], default: 'client' },
+    role: { type: String, enum: ['customer', 'provider'], default: 'customer' },
     location: String,
 })
 UserSchema.pre('save', async function() {
