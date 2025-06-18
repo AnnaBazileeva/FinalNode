@@ -11,11 +11,6 @@ const ServiceSchema = new mongoose.Schema({
         required: [true, "Please provide name of your company"],
         maxlength: 30
     },
-    status: {
-        type: String,
-        enum: ['reserved', 'available', 'unavailable'],
-        default: 'available'
-    },
     location: {
         type: String,
         maxlength: 100,
@@ -25,6 +20,10 @@ const ServiceSchema = new mongoose.Schema({
         type: String,
         maxlength: 500,
         default: '',
+    },
+    image: {
+        type: String,
+        default: ''
     },
     createdBy: {
         type: mongoose.Types.ObjectId,

@@ -11,14 +11,13 @@ const auth = async (req, res, next) => {
 
     try{
         const payload = jwt.verify(token, process.env.JWT_SECRET)
-
-        req.user = {userId: payload.userId, name:payload.name}
+        req.user = {userId: payload.userId, name:payload.name, role: payload.role}
         next()
-    } catch (error) { console.log("JWT_SECRET from env: ", process.env.JWT_SECRET);
+    } catch (error) {
 throw  new UnauthenticatedError('Authentication invalid')
     }
 
 
 }
 
-module.exports=auth
+module.exports=auth;

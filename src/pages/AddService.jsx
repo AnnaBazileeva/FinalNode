@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../styles/AddService.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
@@ -9,6 +10,9 @@ const AddService = () => {
     const [location, setLocation] = useState('');
     const [description, setDescription] = useState('');
     const [services, setServices] = useState([]);
+    const [imageBase64, setImageBase64] = useState('');
+    const [errorMessage, setErrorMessage] = useState(null);
+    const navigate = useNavigate();
 
     const fetchMyServices = async () => {
         try {
@@ -17,18 +21,41 @@ const AddService = () => {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             });
+
             const data = await res.json();
+
             if (res.ok) {
                 setServices(data.services);
+            } else {
+                console.error(data.message || 'Failed to fetch services');
             }
         } catch (err) {
-            console.error(err);
+            console.error('Fetch error:', err);
+        }
+    };
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImageBase64(reader.result);
+            };
+            reader.readAsDataURL(file);
         }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const payload = { serviceName, company, location, description };
+        setErrorMessage(null);
+
+        const body = {
+            serviceName,
+            company,
+            location,
+            description,
+            image: imageBase64
+        };
 
         try {
             const res = await fetch(`${API_BASE}/services`, {
@@ -37,8 +64,10 @@ const AddService = () => {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 },
-                body: JSON.stringify(payload)
+                body: JSON.stringify(body)
             });
+
+            const data = await res.json();
 
             if (res.ok) {
                 await fetchMyServices();
@@ -46,13 +75,15 @@ const AddService = () => {
                 setCompany('');
                 setLocation('');
                 setDescription('');
+                setImageBase64('');
                 alert('Service added');
+                navigate('/services');
             } else {
-                const data = await res.json();
-                alert(data.message || 'Error');
+                setErrorMessage(data.msg || data.message || 'Error adding service');
             }
         } catch (err) {
-            console.error(err);
+            console.error('Submit error:', err);
+            setErrorMessage('Network error. Please try again.');
         }
     };
 
@@ -89,15 +120,16 @@ const AddService = () => {
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="Description"
                 />
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                />
                 <button type="submit">Add Service</button>
             </form>
-
-            <h3>Your Services</h3>
-            <select className={styles.dropdown}>
-                {services.map(service => (
-                    <option key={service._id}>{service.serviceName}</option>
-                ))}
-            </select>
+            {errorMessage && (
+                <p style={{ color: 'red', marginTop: '1rem' }}>{errorMessage}</p>
+            )}
         </div>
     );
 };
