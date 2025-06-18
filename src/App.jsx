@@ -11,6 +11,8 @@ import LoginPage from "./pages/LoginPage"
 import Footer from "./shared/Footer";
 import HomePage from "./pages/HomePage";
 import AddService from "./pages/AddService";
+import 'leaflet/dist/leaflet.css';
+
 
 function App() {
     return (

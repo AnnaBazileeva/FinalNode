@@ -35,8 +35,32 @@ function BookingServices() {
         fetchServices();
     }, [API_BASE]);
 
-    const handleBook = (service) => {
-        alert(`You booked: ${service.title}`);
+    const handleBook = async (service) => {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) throw new Error('No token found, please login');
+
+            const res = await fetch(`${API_BASE}/bookings`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    service: service._id,
+                    date: new Date().toISOString()
+                })
+            });
+
+            if (!res.ok) {
+                const data = await res.json();
+                throw new Error(data.message || 'Booking failed');
+            }
+
+            alert(`You booked: ${service.serviceName}`);
+        } catch (error) {
+            alert(`Error: ${error.message}`);
+        }
     };
 
     if (loading) return <p>Loading...</p>;

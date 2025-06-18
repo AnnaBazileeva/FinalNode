@@ -21,6 +21,13 @@ const getService = async (req, res) => {
 }
 
 const createService = async (req, res) => {
+    if (!req.user) {
+        return res.status(401).json({ msg: 'Authentication invalid' });
+    }
+    if (req.user.role !== 'provider') {
+        return res.status(403).json({ msg: 'Only providers can perform this action' });
+    }
+
     const { company, serviceName, location, description, image } = req.body;
 
     if (!company || !serviceName || !location) {

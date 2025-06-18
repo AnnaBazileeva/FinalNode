@@ -63,7 +63,8 @@ const Header = () => {
                     Login
                 </NavLink>
                 {localStorage.getItem('token') && (
-                    <NavLink to="/addservice">Add Service</NavLink>
+                    <NavLink to="/addservice" className={({ isActive }) =>
+                        isActive ? styles.active : styles.inactive}>Add Service</NavLink>
                 )}
             </nav>
         </header>

@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import styles from '../styles/AddService.module.css';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
+import Location from "./Location"
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
@@ -13,6 +14,7 @@ const AddService = () => {
     const [imageBase64, setImageBase64] = useState('');
     const [errorMessage, setErrorMessage] = useState(null);
     const navigate = useNavigate();
+    const [latLng, setLatLng] = useState(null);
 
     const fetchMyServices = async () => {
         try {
@@ -52,19 +54,16 @@ const AddService = () => {
         const body = {
             serviceName,
             company,
-            location,
+            location: latLng ? `${latLng.lat},${latLng.lng}` : location,
             description,
             image: imageBase64
         };
 
         try {
             const res = await fetch(`${API_BASE}/services`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                },
-                body: JSON.stringify(body)
+                method: 'POST', headers: {
+                    'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}`
+                }, body: JSON.stringify(body)
             });
 
             const data = await res.json();
@@ -91,8 +90,7 @@ const AddService = () => {
         fetchMyServices();
     }, []);
 
-    return (
-        <div className={styles.container}>
+    return (<div className={styles.container}>
             <h2>Add a Service</h2>
             <form onSubmit={handleSubmit} className={styles.form}>
                 <input
@@ -113,8 +111,11 @@ const AddService = () => {
                     type="text"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
-                    placeholder="Location"
-                />
+                    placeholder="Location"/>
+                <label>Select location on the map:</label>
+                <Location setLatLng={setLatLng}/>
+
+
                 <textarea
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
@@ -127,11 +128,8 @@ const AddService = () => {
                 />
                 <button type="submit">Add Service</button>
             </form>
-            {errorMessage && (
-                <p style={{ color: 'red', marginTop: '1rem' }}>{errorMessage}</p>
-            )}
-        </div>
-    );
+            {errorMessage && (<p style={{color: 'red', marginTop: '1rem'}}>{errorMessage}</p>)}
+        </div>);
 };
 
 export default AddService;

@@ -39,7 +39,7 @@ export default function LoginPage() {
 
 
                 if (role === "customer") {
-                    navigate("/booking");
+                    navigate("/services");
                 } else if (role === "provider") {
                     navigate("/services");
                 }
