@@ -6,7 +6,13 @@ const getAllServices = async (req, res) => {
     if (!req.user || !req.user.userId) {
         throw new BadRequestError('User not authenticated');
     }
-    const services = await Service.find({ createdBy: req.user.userId }).sort('createdAt');
+    let services;
+    if (req.user.role === 'provider') {
+        services = await Service.find({ createdBy: req.user.userId }).sort('createdAt');
+    } else {
+        services = await Service.find({}).sort('createdAt');
+    }
+
     res.status(StatusCodes.OK).json({ services, count: services.length });
 }
 
@@ -21,6 +27,7 @@ const getService = async (req, res) => {
 }
 
 const createService = async (req, res) => {
+    console.log('➡️ createService called');
     if (!req.user) {
         return res.status(401).json({ msg: 'Authentication invalid' });
     }
@@ -34,6 +41,7 @@ const createService = async (req, res) => {
         throw new BadRequestError('Please provide all required fields: company, serviceName, location');
     }
 
+    try {
     const service = await Service.create({
         company,
         serviceName,
@@ -43,6 +51,9 @@ const createService = async (req, res) => {
         createdBy: req.user.userId,
     });
     res.status(StatusCodes.CREATED).json({ service });
+}catch (error) {
+        throw new BadRequestError('Error adding service');
+    }
 }
 
 const updateService = async (req, res) => {
@@ -52,8 +63,8 @@ const updateService = async (req, res) => {
         params: { id: serviceId },
     } = req;
 
-    if (company === '' || serviceName === '') {
-        throw new BadRequestError("Company and service name can't be empty");
+    if (company === '' || serviceName === '' || location === '') {
+        throw new BadRequestError('Please provide all required fields...');
     }
 
     const updatedService = await Service.findOneAndUpdate(

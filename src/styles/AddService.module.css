@@ -13,8 +13,8 @@
     gap: 0.8rem;
 }
 
-.input, textarea, select {
-    padding: 0.5rem;
+.formGroup input, textarea, select {
+    padding: 1rem;
     font-size: 1rem;
     border-radius: 5px;
     border: 1px solid #ccc;
@@ -34,3 +34,19 @@ button:hover {
     background-color: #3b82f6;
 }
 
+
+.errorBorder {
+    border: 1px solid red;
+    margin-right: 10px;
+
+}
+
+.formGroup {
+    margin-bottom: 1rem;
+}
+
+.formGroup label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}

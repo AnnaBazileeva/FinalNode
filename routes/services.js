@@ -5,8 +5,13 @@ const {getAllServices, getService, updateService, deleteService, createService} 
 const auth = require('../middleware/authentication');
 const authorizeProvider = require('../middleware/authorizeProvider');
 
-router.route('/services').post(authorizeProvider,createService).get(auth,getAllServices )
-router.route('/services/:id').get(auth,getService ).delete(authorizeProvider,deleteService ).patch(authorizeProvider,updateService)
+router.route('/')
+    .get(auth, getAllServices)
+    .post(auth, authorizeProvider, createService);
 
+router.route('/:id')
+    .get(auth, getService)
+    .patch(auth, authorizeProvider, updateService)
+    .delete(auth, authorizeProvider, deleteService);
 
 module.exports = router
