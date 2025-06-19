@@ -51,4 +51,10 @@
     justify-content: center;
     align-items: center;
 }
-
+.bookingDetails {
+    margin-top: 2rem;
+    padding: 1rem;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}

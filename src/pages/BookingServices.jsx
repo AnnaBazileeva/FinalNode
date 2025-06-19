@@ -9,6 +9,7 @@ function BookingServices() {
     const [filteredServices, setFilteredServices] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [locationSearch, setLocationSearch] = useState('');
+    const [selectedService, setSelectedService] = useState(null);
 
     const [currentPage, setCurrentPage] = useState(1);
     const servicesPerPage = 2;
@@ -56,6 +57,8 @@ function BookingServices() {
             const token = localStorage.getItem('token');
             if (!token) throw new Error('No token found, please login');
 
+            const bookingDate = service.selectedDate || new Date().toISOString();
+
             const res = await fetch(`${API_BASE}/bookings`, {
                 method: 'POST',
                 headers: {
@@ -64,7 +67,7 @@ function BookingServices() {
                 },
                 body: JSON.stringify({
                     service: service._id,
-                    date: new Date().toISOString()
+                    date: bookingDate
                 })
             });
 
@@ -74,6 +77,7 @@ function BookingServices() {
             }
 
             alert(`You booked: ${service.serviceName}`);
+            setSelectedService(null);
         } catch (error) {
             alert(`Error: ${error.message}`);
         }
@@ -121,7 +125,7 @@ function BookingServices() {
                         <p><strong>Location:</strong> {service.location}</p>
                         <button
                             className={styles.bookButton}
-                            onClick={() => handleBook(service)}
+                            onClick={() => setSelectedService(service)}
                         >
                             Booking
                         </button>
@@ -129,20 +133,44 @@ function BookingServices() {
                 ))}
             </div>
 
-    {totalPages > 1 && (
-            <div className={styles.pagination}>
-                <button onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} disabled={currentPage === 1}>
-                    Prev
-                </button>
-                <span>Page {currentPage} of {totalPages}</span>
-                <button onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
-                        disabled={currentPage === totalPages}>
-                    Next
-                </button>
-            </div>
-        )}
-</div>
-);
+            {totalPages > 1 && (
+                <div className={styles.pagination}>
+                    <button onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} disabled={currentPage === 1}>
+                        Prev
+                    </button>
+                    <span>Page {currentPage} of {totalPages}</span>
+                    <button onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+                            disabled={currentPage === totalPages}>
+                        Next
+                    </button>
+                </div>
+            )}
+            {selectedService && (
+                <div className={styles.bookingDetails}>
+                    <h3>Booking for: {selectedService.serviceName}</h3>
+                    <p>{selectedService.description}</p>
+                    <p><strong>Location:</strong> {selectedService.location}</p>
+
+                    <input
+                        type="date"
+                        onChange={(e) => {
+                            const newDate = new Date(e.target.value).toISOString();
+                            setSelectedService((prev) => ({...prev, selectedDate: newDate}));
+                        }}
+                    />
+
+                    <button
+                        className={styles.bookButton}
+                        onClick={() => handleBook(selectedService)}
+                    >
+                        Confirm Booking
+                    </button>
+                    <button onClick={() => setSelectedService(null)}>Cancel</button>
+                </div>
+            )}
+
+        </div>
+    );
 }
 
 export default BookingServices;
