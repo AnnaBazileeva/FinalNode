@@ -14,7 +14,7 @@
 }
 
 .formGroup input, textarea, select {
-    padding: 1rem;
+    padding: 1.5rem;
     font-size: 1rem;
     border-radius: 5px;
     border: 1px solid #ccc;

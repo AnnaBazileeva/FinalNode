@@ -34,3 +34,21 @@
     border-radius: 5px;
     cursor: pointer;
 }
+
+.searchContainer {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+.searchInput {
+    padding: 0.5rem;
+    flex: 1;
+}
+.pagination {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+
