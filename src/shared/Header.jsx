@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from "react";
-import {NavLink, useLocation} from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import styles from "../styles/Header.module.css";
-
 
 const Header = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const [title, setTitle] = useState("");
 
     useEffect(() => {
@@ -26,13 +26,19 @@ const Header = () => {
         }
     }, [location]);
 
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        navigate("/login");
+    };
+
+    const isAuthenticated = !!localStorage.getItem("token");
+
     return (
         <header className={styles.header}>
-
             <nav className={styles.nav}>
                 <NavLink
                     to="/"
-                    className={({isActive}) =>
+                    className={({ isActive }) =>
                         isActive ? styles.active : styles.inactive
                     }
                 >
@@ -40,19 +46,11 @@ const Header = () => {
                 </NavLink>
                 <NavLink
                     to="/about"
-                    className={({isActive}) =>
-                        isActive ? styles.active : styles.inactive
-                    }
-                >
-                    About
-                </NavLink>
-                <NavLink
-                    to="/services"
                     className={({ isActive }) =>
                         isActive ? styles.active : styles.inactive
                     }
                 >
-                    Services
+                    About
                 </NavLink>
                 <NavLink
                     to="/login"
@@ -62,9 +60,28 @@ const Header = () => {
                 >
                     Login
                 </NavLink>
-                {localStorage.getItem('token') && (
-                    <NavLink to="/addservice" className={({ isActive }) =>
-                        isActive ? styles.active : styles.inactive}>Add Service</NavLink>
+                <NavLink
+                    to="/services"
+                    className={({ isActive }) =>
+                        isActive ? styles.active : styles.inactive
+                    }
+                >
+                    Services
+                </NavLink>
+                {isAuthenticated && (
+                    <>
+                        <NavLink
+                            to="/addservice"
+                            className={({ isActive }) =>
+                                isActive ? styles.active : styles.inactive
+                            }
+                        >
+                            Add Service
+                        </NavLink>
+                        <button onClick={handleLogout} className={styles.logoutButton}>
+                            Logout
+                        </button>
+                    </>
                 )}
             </nav>
         </header>
