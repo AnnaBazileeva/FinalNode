@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {NavLink, useLocation} from "react-router-dom";
 import styles from "../styles/Header.module.css";
-import logo from "../assets/note_13650723.png";
+
 
 const Header = () => {
     const location = useLocation();
@@ -10,10 +10,16 @@ const Header = () => {
     useEffect(() => {
         switch (location.pathname) {
             case "/":
-                setTitle("Todo List");
+                setTitle("Home");
                 break;
             case "/about":
                 setTitle("About");
+                break;
+            case "/services":
+                setTitle("Services");
+                break;
+            case "/login":
+                setTitle("Login");
                 break;
             default:
                 setTitle("Not Found");
@@ -22,10 +28,7 @@ const Header = () => {
 
     return (
         <header className={styles.header}>
-            <div className={styles.logoTitle}>
-                <img src={logo} alt="Logo" className={styles.logo}/>
-                <h1 className={styles.title}>{title}</h1>
-            </div>
+
             <nav className={styles.nav}>
                 <NavLink
                     to="/"
@@ -43,6 +46,26 @@ const Header = () => {
                 >
                     About
                 </NavLink>
+                <NavLink
+                    to="/services"
+                    className={({ isActive }) =>
+                        isActive ? styles.active : styles.inactive
+                    }
+                >
+                    Services
+                </NavLink>
+                <NavLink
+                    to="/login"
+                    className={({ isActive }) =>
+                        isActive ? styles.active : styles.inactive
+                    }
+                >
+                    Login
+                </NavLink>
+                {localStorage.getItem('token') && (
+                    <NavLink to="/addservice" className={({ isActive }) =>
+                        isActive ? styles.active : styles.inactive}>Add Service</NavLink>
+                )}
             </nav>
         </header>
     );

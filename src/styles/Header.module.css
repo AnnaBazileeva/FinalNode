@@ -1,12 +1,8 @@
 .header {
     position: relative;
     padding: 1rem;
+    padding-bottom: 2rem;
 
-}
-
-.title {
-    text-align: center;
-    margin-top: 1rem;
 }
 
 .nav {
@@ -27,14 +23,3 @@
     text-decoration: none;
 }
 
-.logo {
-    width: 40px;
-    height: 40px;
-}
-
-.logoTitle {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-}
