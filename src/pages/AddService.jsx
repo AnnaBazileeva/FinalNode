@@ -109,7 +109,7 @@ const AddService = () => {
                 setDescription('');
                 setImageBase64('');
                 alert('Service added');
-                navigate('/services');
+                navigate('/services/myservices');
             } else {
                 setErrorMessage(data.msg || data.message || 'Error adding service');
             }
@@ -189,7 +189,7 @@ const AddService = () => {
                 />
                 <button type="submit">Add Service</button>
             </form>
-            {errorMessage && <p style={{color: 'red', marginTop: '1rem'}}>{errorMessage}</p>}
+            {errorMessage && <p style={{color: 'red'}}>{errorMessage}</p>}
         </div>
     );
 };

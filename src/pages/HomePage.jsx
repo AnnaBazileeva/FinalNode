@@ -5,7 +5,7 @@ const Home = ({ isLoading, error }) => (
     <div className={styles.homeContainer}>
         <h2 className={styles.title}>Services App</h2>
         <p className={styles.instruction}>
-            Create or book services
+            Easily create or book services in just a few clicks.
         </p>
 
         {isLoading && <p className={styles.loading}>Loading...</p>}

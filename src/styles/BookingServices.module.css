@@ -1,11 +1,13 @@
 .servicesContainer {
     padding: 1rem;
+    max-width: 800px;
+    width: 100%;
 }
 
 .servicesGrid {
     display: grid;
     gap: 1rem;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
 }
 
 .serviceCard {
@@ -33,4 +35,32 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.searchContainer {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+.searchInput {
+    padding: 0.5rem;
+    flex: 1;
+}
+.pagination {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+.bookingDetails {
+    margin-top: 2rem;
+    padding: 1rem;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+h2 {
+    text-align: center;
 }

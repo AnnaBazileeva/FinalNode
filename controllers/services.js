@@ -3,18 +3,10 @@ const { StatusCodes } = require('http-status-codes')
 const { BadRequestError, NotFoundError } = require('../errors')
 
 const getAllServices = async (req, res) => {
-    if (!req.user || !req.user.userId) {
-        throw new BadRequestError('User not authenticated');
-    }
-    let services;
-    if (req.user.role === 'provider') {
-        services = await Service.find({ createdBy: req.user.userId }).sort('createdAt');
-    } else {
-        services = await Service.find({}).sort('createdAt');
-    }
-
+    const services = await Service.find({}).sort('createdAt');
     res.status(StatusCodes.OK).json({ services, count: services.length });
-}
+};
+
 
 const getService = async (req, res) => {
     const { user: { userId }, params: { id: serviceId } } = req;
@@ -94,10 +86,24 @@ const deleteService = async (req, res) => {
     res.status(StatusCodes.OK).json({ msg: 'Service deleted successfully' });
 }
 
+
+const getMyServices = async (req, res) => {
+    try {
+        const userId = req.user.userId;
+        const services = await Service.find({ createdBy: userId });
+        res.status(StatusCodes.OK).json({ services, count: services.length });
+    } catch (error) {
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Error' });
+    }
+};
+
+
+
 module.exports = {
     getAllServices,
     getService,
     createService,
     updateService,
-    deleteService
+    deleteService,
+    getMyServices
 }

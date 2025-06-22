@@ -38,6 +38,16 @@ app.use('/api/services', serviceRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/availability', availabilityRoutes);
 
+const path = require('path');
+
+app.use(express.static(path.join(__dirname, 'client', 'dist')));
+
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+});
+
+
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 

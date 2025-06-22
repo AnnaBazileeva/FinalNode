@@ -11,7 +11,7 @@ import LoginPage from "./pages/LoginPage"
 import Footer from "./shared/Footer";
 import HomePage from "./pages/HomePage";
 import AddService from "./pages/AddService";
-import 'leaflet/dist/leaflet.css';
+import MyServices from "./pages/MyServices";
 
 
 function App() {
@@ -23,6 +23,8 @@ function App() {
                     <Routes>
                         <Route path="/services" element={<BookingServices />} />
                         <Route path="/addservice" element={<AddService />} />
+                        <Route path="/services/myservices" element={<MyServices />} />
+
                         <Route path="/about" element={<About />} />
                         <Route path="/" element={<HomePage/>}/>
                         <Route path="*" element={<NotFound />} />
