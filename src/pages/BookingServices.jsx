@@ -20,7 +20,7 @@ function BookingServices() {
         const fetchServices = async () => {
             try {
                 const token = localStorage.getItem('token');
-                if (!token) throw new Error('No token found, please login');
+                if (!token) throw new Error('Please login');
 
                 const res = await fetch(`${API_BASE}/services`, {
                     headers: {
