@@ -189,7 +189,7 @@ const AddService = () => {
                 />
                 <button type="submit">Add Service</button>
             </form>
-            {errorMessage && <p style={{color: 'red', marginTop: '1rem'}}>{errorMessage}</p>}
+            {errorMessage && <p style={{color: 'red'}}>{errorMessage}</p>}
         </div>
     );
 };
