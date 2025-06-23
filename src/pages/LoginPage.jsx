@@ -14,7 +14,7 @@ export default function LoginPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const API_BASE = "http://localhost:3000";
+        const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 
         const url = isLogin ? `${API_BASE}/api/auth/login` : `${API_BASE}/api/auth/register`;
