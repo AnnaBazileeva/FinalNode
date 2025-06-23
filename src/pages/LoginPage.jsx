@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import styles from "../styles/Login.module.css";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 
 export default function LoginPage() {
@@ -17,15 +17,15 @@ export default function LoginPage() {
         const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 
-        const url = isLogin ? `${API_BASE}/api/auth/login` : `${API_BASE}/api/auth/register`;
+        const url = isLogin ? `${API_BASE}/auth/login` : `${API_BASE}/auth/register`;
         const payload = isLogin
-            ? { email, password, role }
-            : { name, email, password, role };
+            ? {email, password, role}
+            : {name, email, password, role};
 
         try {
             const response = await fetch(url, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(payload),
             });
 
@@ -73,18 +73,18 @@ export default function LoginPage() {
                     </button>
                 </div>
 
-                    {!isLogin && (
+                {!isLogin && (
                     <label className={styles.label}>
-                Name:
-                <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className={styles.input}
-                    required
-                />
-            </label>
-            )}
+                        Name:
+                        <input
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            className={styles.input}
+                            required
+                        />
+                    </label>
+                )}
 
                 <label className={styles.label}>
                     Email:

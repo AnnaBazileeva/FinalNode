@@ -1,6 +1,5 @@
 import React from 'react';
-import styles from './styles/App.module.css'
-import { useState, useEffect } from "react";
+import styles from './styles/App.module.css';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 import BookingServices from "./pages/BookingServices";
