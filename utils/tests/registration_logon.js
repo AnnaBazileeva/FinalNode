@@ -30,6 +30,7 @@ describe("auth: registration and login", () => {
         const res = await request(address)
             .post("/api/auth/register")
             .send({ name: "Test User", email, password, role: "customer" });
+
         expect(res).to.have.status(200);
         expect(res.body).to.have.property("token");
     });
@@ -41,44 +42,24 @@ describe("auth: registration and login", () => {
 
         expect(res).to.have.status(200);
         expect(res.body).to.have.property("token");
-
         token = res.body.token;
     });
-    it("should log the user on", async () => {
-        const dataToPost = {
-            email: this.user.email,
-            password: this.password,
-            _csrf: this.csrfToken,
-        };
-        const { expect, request } = await get_chai();
-        const req = request
-            .execute(app)
-            .post("/api/auth/logon")
-            .set("Cookie", this.csrfCookie)
-            .set("content-type", "application/x-www-form-urlencoded")
-            .redirects(0)
-            .send(dataToPost);
-        const res = await req;
-        expect(res).to.have.status(302);
-        expect(res.headers.location).to.equal("/");
-        const cookies = res.headers["set-cookie"];
-        this.sessionCookie = cookies.find((element) =>
-            element.startsWith("connect.sid"),
-        );
-        expect(this.sessionCookie).to.not.be.undefined;
+
+    it("should access protected route with token", async () => {
+        const res = await request(address)
+            .get("/api/services")
+            .set("Authorization", `Bearer ${token}`);
+
+        expect(res).to.have.status(200);
     });
 
-    it("should get the index page", async () => {
-        const { expect, request } = await get_chai();
-        const req = request
-            .execute(app)
-            .get("/")
-            .set("Cookie", this.csrfCookie)
-            .set("Cookie", this.sessionCookie)
+    it("should log the user off", async () => {
+        const res = await request(address)
+            .post("/api/auth/logout")
+            .set("Authorization", `Bearer ${token}`)
             .send();
-        const res = await req;
+
         expect(res).to.have.status(200);
-        expect(res).to.have.property("text");
-        expect(res.text).to.include(this.user.name);
+        expect(res.body).to.have.property("message", "User logged out");
     });
 });

@@ -10,6 +10,8 @@ const register= async(req, res) => {
     const token = user.createJWT()
     res.status(StatusCodes.OK).json({user:{name:user.name,
             role: user.role }, token})
+
+
 }
 
 const login = async(req, res) => {
@@ -24,6 +26,7 @@ const login = async(req, res) => {
     if (!user) {
         throw new UnauthenticatedError('invalid credentials')
     }
+
 
 const isPasswordCorrect = await  user.comparePassword(password)
     if (!isPasswordCorrect) {
@@ -45,7 +48,14 @@ const isPasswordCorrect = await  user.comparePassword(password)
         token,
     });
 }
+
+const logout = async (req, res) => {
+    res.status(200).json({ message: "User logged out" });
+};
+
+
 module.exports = {
     register,
-    login
+    login,
+    logout
 }
