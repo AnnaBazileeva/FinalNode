@@ -32,6 +32,14 @@ app.use(helmet())
 
 app.use(xss())
 
+app.use((req, res, next) => {
+    if (req.path == "/multiply") {
+        res.set("Content-Type", "application/json");
+    } else {
+        res.set("Content-Type", "text/html");
+    }
+    next();
+});
 
 app.use('/api/auth', authRoutes);
 app.use('/api/services', serviceRoutes);
@@ -51,22 +59,4 @@ app.get('*', (req, res) => {
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
-const PORT = process.env.PORT || 3000;
-
-let mongoURL = process.env.MONGO_URI;
-if (process.env.NODE_ENV === "test") {
-    mongoURL = process.env.MONGO_URI_TEST;
-}
-
-const start = async () => {
-    try {
-        await connectDB(mongoURL)
-        app.listen(PORT, () =>
-            console.log(`Server is listening on port ${PORT}...`)
-        );
-    } catch (error) {
-        console.log(error);
-    }
-};
-
-start();
+module.exports = app;

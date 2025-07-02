@@ -6,7 +6,8 @@
     "start": "node app.js",
     "dev": "vite",
     "build": "vite build",
-    "test": "NODE_ENV=test mocha tests/*.js --timeout 5000 --exit"
+    "test": "NODE_ENV=test node --loader=esm ./node_modules/.bin/mocha utils/tests/*.js --timeout 5000 --exit"
+
   },
   "author": "",
   "license": "ISC",
