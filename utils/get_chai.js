@@ -2,11 +2,16 @@ let chai_obj = null;
 
 const get_chai = async () => {
     if (!chai_obj) {
-        const { expect, use } = await import("chai");
+        const chai = await import("chai");
         const chaiHttp = await import("chai-http");
-        const chai = use(chaiHttp.default);
-        chai_obj = { expect: expect, request: chai.request };
+
+        chai.default.use(chaiHttp.default);
+        chai_obj = {
+            expect: chai.default.expect,
+            request: chai.default.request
+        };
     }
+
     return chai_obj;
 };
 

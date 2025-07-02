@@ -33,13 +33,16 @@ app.use(helmet())
 app.use(xss())
 
 app.use((req, res, next) => {
-    if (req.path == "/multiply") {
+    if (req.path.startsWith("/api/")) {
+        res.set("Content-Type", "application/json");
+    } else if (req.path === "/multiply") {
         res.set("Content-Type", "application/json");
     } else {
         res.set("Content-Type", "text/html");
     }
     next();
 });
+
 
 app.use('/api/auth', authRoutes);
 app.use('/api/services', serviceRoutes);

@@ -7,7 +7,6 @@
     "dev": "vite",
     "build": "vite build",
     "test": "NODE_ENV=test node --loader=esm ./node_modules/.bin/mocha utils/tests/*.js --timeout 5000 --exit"
-
   },
   "author": "",
   "license": "ISC",
@@ -38,8 +37,8 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^9.8.0",
-    "chai": "^5.2.0",
-    "chai-http": "^5.1.2",
+    "chai": "^4.5.0",
+    "chai-http": "^4.4.0",
     "factory-bot": "^6.3.1",
     "mocha": "^11.7.1",
     "puppeteer": "^24.11.1",
