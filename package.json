@@ -41,7 +41,7 @@
     "chai-http": "^4.4.0",
     "factory-bot": "^6.3.1",
     "mocha": "^11.7.1",
-    "puppeteer": "^24.11.1",
+    "puppeteer": "^24.11.2",
     "vite": "^6.3.5"
   }
 }
