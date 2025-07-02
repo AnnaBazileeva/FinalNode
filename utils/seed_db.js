@@ -9,8 +9,8 @@ const factory = FactoryBot.factory;
 const factoryAdapter = new FactoryBot.MongooseAdapter();
 factory.setAdapter(factoryAdapter);
 factory.define("service", Service, {
-    company: () => faker.company.name(),
-    serviceName: () => faker.commerce.productName(),
+    company: () => faker.company.name().slice(0, 30),
+    serviceName: () => faker.commerce.productName().slice(0, 30),
 
 });
 factory.define("user", User, {
