@@ -41,7 +41,7 @@ describe("HTML-based service form tests (CSRF + cookie)", () => {
             });
     });
 
-    it("should GET the job list with 20 entries", async () => {
+    it("should GET the service list with 20 entries", async () => {
         const res = await chai.request(app)
             .get("/services")
             .set("Cookie", `${csrfCookie}; ${sessionCookie}`);
@@ -52,7 +52,7 @@ describe("HTML-based service form tests (CSRF + cookie)", () => {
         expect(pageParts.length).to.equal(21);
     });
 
-    it("should ADD a job entry via the form", async () => {
+    it("should ADD a service entry via the form", async () => {
         const serviceData = {
             serviceName: faker.commerce.productName().slice(0, 30),
             company: faker.company.name().slice(0, 30),
