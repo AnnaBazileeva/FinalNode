@@ -17,8 +17,14 @@ describe("HTML-based service form tests (CSRF + cookie)", () => {
 
         const res = await chai.request(app).get("/auth/login");
         const cookies = res.headers["set-cookie"];
-        csrfCookie = cookies.find(c => c.startsWith("csrfToken"));
-        sessionCookie = cookies.find(c => c.startsWith("connect.sid"));
+        console.log("Cookies from /auth/login:", cookies);
+
+        if (!cookies || !Array.isArray(cookies)) {
+            throw new Error("No cookies returned from GET /auth/login");
+        }
+
+        csrfCookie = cookies.find(c => c.includes("csrfToken"));
+        sessionCookie = cookies.find(c => c.includes("connect.sid"));
 
         if (!csrfCookie) throw new Error("CSRF cookie not found");
         if (!sessionCookie) throw new Error("Session cookie not found");
@@ -26,8 +32,7 @@ describe("HTML-based service form tests (CSRF + cookie)", () => {
         const csrfTokenMatch = csrfCookie.match(/csrfToken=([^;]+)/);
         if (!csrfTokenMatch) throw new Error("CSRF token not found in cookie");
 
-        csrfToken = match[1];
-
+        csrfToken = csrfTokenMatch[1];
 
 
         await chai.request(app)

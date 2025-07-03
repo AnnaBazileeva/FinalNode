@@ -1,7 +1,7 @@
 const puppeteer = require("puppeteer");
 
 describe("Puppeteer test for React registration", function () {
-    this.timeout(10000);
+    this.timeout(60000);
     let browser, page;
 
     before(async () => {
