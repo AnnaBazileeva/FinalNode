@@ -32,6 +32,17 @@ app.use(helmet())
 
 app.use(xss())
 
+app.use((req, res, next) => {
+    if (req.path.startsWith("/api/")) {
+        res.set("Content-Type", "application/json");
+    } else if (req.path === "/multiply") {
+        res.set("Content-Type", "application/json");
+    } else {
+        res.set("Content-Type", "text/html");
+    }
+    next();
+});
+
 
 app.use('/api/auth', authRoutes);
 app.use('/api/services', serviceRoutes);
@@ -51,17 +62,4 @@ app.get('*', (req, res) => {
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
-const PORT = process.env.PORT || 3000;
-
-const start = async () => {
-    try {
-        await connectDB(process.env.MONGO_URI)
-        app.listen(PORT, () =>
-            console.log(`Server is listening on port ${PORT}...`)
-        );
-    } catch (error) {
-        console.log(error);
-    }
-};
-
-start();
+module.exports = app;
